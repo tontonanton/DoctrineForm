@@ -1,0 +1,17 @@
+the goal is to construct forms directly from doctrine's entities's metadatas.
+Symfony achieve it so well, form has to become symplier and simplier to generate with use of entities
+At that time, it remains too much verbose
+
+1/ the annotation builder builds form specifications that are given to the form factory who builds the final form.
+
+this tool has then as main goal to allow to get form specifications based on doctrine's entitie's metadatas
+those specifications could then be merged with some generated with annotations to remain consistent 
+
+finally, things are simple :
+	we are going top map doctrine fields properties to form's element's properties and attributes
+
+they will be dependencies for this module:
+	- doctrine-commons (annotations)
+	- doctrine-orm (entity manager)
+
+ 

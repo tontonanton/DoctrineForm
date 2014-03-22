@@ -1,0 +1,59 @@
+<?php
+// Width in each row for label and control
+// COuld be run time set via javascript too
+$labelColumnClass = "col-md-offset-2 col-md-3";
+$controlColumnClass = "col-md-5";
+$this->form->setAttribute('action', $this->basePath($this->form->getAttribute('action')));
+$this->form->setAttribute('class','form-horizontal' . $this->form->getAttribute('class'));
+$this->form->setAttribute('role','form');
+$errors = $this->form->getMessages();
+?>
+<div class="container col-md-10 col-md-offset-1 form-condensed" id="form-container">
+    <?php $renderEnd = "";?>
+    <?php echo $this->form()->openTag($this->form);?>
+        <?php foreach($this->form->getElements()  as $nom=>$element):
+            if ($element->getAttribute('type') == 'hidden'){
+                $renderEnd .= $this->formElement($element);
+                continue;
+                }else{
+                $element->setAttribute('class','form-control input-sm' . $element->getAttribute('class'));
+            }
+        ?>
+
+        <div class="form-group">
+            <!-- error on validation -->
+            <?php if (isset($errors[$element->getName()])):?>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 alert alert-danger padded-no marged-no">
+                    <a class="close" data-dismiss="alert">×</a>  
+                    <?php
+                        echo $element->getName() . ':';
+                        foreach($errors[$element->getName()] as $message)
+                            echo $message . "<br>";
+                    ?>
+                </div>
+            </div>
+            <?php endif;?>
+            
+            <?php if ($element->getLabel() !== null) :?>
+                <label class="<?php echo $labelColumnClass;?> control-label" for="<?php echo $element->getName();?>"><?php echo $element->getLabel();?></label>		
+                <div class="<?php echo $controlColumnClass;?>">
+                <?php echo $this->formElement($element);?>
+                </div>
+            <?php else :?>
+                <?php if($element->getAttribute('type') == 'submit'):?>
+                    <div class="col-sm-4 col-sm-offset-4 text-center">
+                    <?php $element->setValue(($this->actionContext == 'search') ? 'Rechercher' : 'Valider')->setAttribute('class','btn btn-sm btn-success');?>
+                    <?php echo $this->formElement($element);?>
+                    </div>
+                <?php else:?>
+                    <div class="col-sm-12">
+                    <?php echo $this->formElement($element);?>
+                    </div>
+                <?php endif;?>
+            <?php endif;?>
+        </div>
+        <?php endforeach;?>
+    <?php echo $renderEnd;?>
+    <?php echo $this->form()->closeTag($this->form);?>
+</div>

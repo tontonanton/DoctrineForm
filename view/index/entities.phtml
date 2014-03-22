@@ -1,0 +1,57 @@
+<div class="container">
+	<div class="page-header h3 text-center col-md-6 col-md-offset-3">
+	Liste de sentités disponibles
+	</div>
+</div>
+
+<div class="row-fluid col-md10 col-md-offset-1">
+	<ul>
+	<?php foreach($this->entities as $name=>$reflection):?>
+		<?php $usedMethods=array();?>
+		<li>
+			<div class="container">
+				<div class="col-md-6 col-md-offset-3 alert alert-success">
+					<?php echo $name;?>
+				</div>
+			</div>
+
+			<ul>
+				<li>
+					<div class="container">
+					Properties :
+					<ul>
+					<?php foreach($reflection['properties'] as $property):?>
+						<li>
+						<?php echo $property;?>
+							<ul>
+							<?php foreach($reflection['methods'] as $method):?>
+								<?php if (($method =='set' . ucFirst($property)) or($method =='get' . ucFirst($property))):?>
+									<li><?php echo $method;?></li>
+								<?php $usedMethods[$method] = true;?>
+								<?php endif;?>
+							<?php endforeach;?>
+							</ul>
+						</li>
+					<?php endforeach;?>
+					</ul>
+					</div>
+				</li>
+				<li>
+				<div class="container">
+					Methods :
+					<ul>
+					<?php foreach($reflection['methods'] as $method):?>
+						<?php if(!isset($usedMethods[$method])):?>
+							<li>
+							<?php echo $method;?>
+							</li>
+						<?php endif;?>
+					<?php endforeach;?>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	<?php endforeach;?>
+	</ul>
+
+</div>
